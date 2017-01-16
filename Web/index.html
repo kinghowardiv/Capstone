@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <link rel="stylesheet"  type="text/css" href="NewFile.css" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript">
+          
+      //Use a google table to display the data	
+      google.load("visualization", "1", {packages:["table"]});
+      google.setOnLoadCallback(drawTable);
+	   
+      //Function that creates and populates the tables
+      function drawTable() {
+      	var session = new google.visualization.DataTable();
+        var instance = new google.visualization.DataTable();
+        var tutor = new google.visualization.DataTable();
+        var tutee = new google.visualization.DataTable();
+		var formData;
+        
+//         $.ajax({
+//         	  type: "GET",
+//         	  url: "http://localhost:8080/TutoringDatabase/TestServlet",
+//         	  dataType: "json",
+//         	  data: formData,
+        	
+//         	  success: function(){
+//         		  //var json = jQuery.parseJSON(formData);
+//         		  alert(formData);
+     
+//         	  },
+
+//         	});
+        			
+ 		session.addColumn('string', 'CourseID');
+	    session.addColumn('string', 'Instructor Name');
+	    session.addColumn('string', 'Tutor Name');
+	    session.addRows([
+	     	['CSC256', 'David Voorhees', 'Howie Peters'],
+	      	['CSC441', 'David Voorhees', 'Patrick Grimes'],
+	      	['BIO125', 'Sherilyn Smith', 'Steven Scott'],
+	      	['BIO346', 'Blair Page', 'Delaney Lawrence'],      	  
+	      	]);
+	      	            
+        //Table that has all the session instance information for the selected session	
+        instance.addColumn('string', 'Session Date');
+        instance.addColumn('string', 'Session Time');
+        instance.addColumn('string', 'Number of New Students');
+        instance.addColumn('string', 'Number of Returning Students');
+        instance.addRows([
+        	['11/10/2014', '6:30PM', '3', '5'],                  
+        	['11/17/2014', '6:30PM', '1', '3'],                 
+        	['11/24/2014', '6:30PM', '4', '9'],                 
+        	['12/1/2014' , '6:30PM', '3', '7']                 
+        	]);
+        
+        //Table that has all the tutor information for the selected session
+        tutor.addColumn('string', 'Tutor Username');
+        tutor.addColumn('string', 'First Name');
+        tutor.addColumn('string', 'Last Name');
+        tutor.addColumn('string', 'Email');
+        tutor.addColumn('string', 'Student ID');
+        tutor.addRows([
+			['petersha', 'Howie', 'Peters', 'petersha@lemoyne.edu', '001040116']            
+            ]);
+                                              
+      	//Table that has all the tutee information for the selected session instance
+      	tutee.addColumn('string', 'First Name');
+        tutee.addColumn('string', 'Last Name');
+        tutee.addColumn('string', 'Email');
+        tutee.addColumn('string', 'Student ID');
+        tutee.addColumn('string', 'Class Year');
+        tutee.addColumn('string', 'Major');
+        tutee.addColumn('string', 'Second Major');     	
+    	tutee.addRows([
+        	['Randy', 'Nedrow', 'nedrowrf@lemoyne.edu', '001867433', '2015', 'Biology', 'None'],
+        	['Bob', 'Smith', 'smithbr@lemoyne.edu', '009863475', '2015', 'Biology', 'None'],
+        	['Jane', 'Doe', 'doejm@lemoyne.edu', '001165748', '2016', 'Biology', 'None'],
+        	['Josh', 'Gordon', 'gordenjp@lemoyne.edu', '001985473', '2016', 'Biology', 'None'],
+        	['Kobe', 'Bryant', 'bryantkb@lemoyne.edu', '005827345', '2015', 'Biology', 'None']        	                	
+         	]);
+    	     	
+        //Create the tables based on the data
+        var table2 = new google.visualization.Table(document.getElementById('table2_div'));
+        var table3 = new google.visualization.Table(document.getElementById('table3_div'));
+		var table4 = new google.visualization.Table(document.getElementById('table4_div'));
+	    var table = new google.visualization.Table(document.getElementById('table_div'));
+	  
+        table2.draw(instance, {showRowNumber: true});
+        table3.draw(tutor, {showRowNumber: true});
+        table4.draw(tutee, {showRowNumber: true});
+        table.draw(session, {showRowNumber: true});
+                                      
+      }
+    </script>
+  </head>
+  <body>
+  	  <!-- Div at the top of the page -->	
+	  <div class="top-div">Welcome to the Tutoring Catalogue!
+	  		Under Session Information you will see information about the sessions this semester.  If you would like to see the session details please click
+	  		on a session and click find session instance.  If you want to see information about a tutor click on a session and click find tutor.  If you would
+	  		like to see information about the attendants click on the session instance you want and click find students. If you want to create 
+	  		a new session, session instance, tutee or tutor click Save Data!     	
+	  </div>
+	  <!-- Reference to the save page (save.html) -->
+	  
+<!--  
+<div id='cssmenu'>
+<ul>
+   <li class='active'><a href='index.html'>Home</a></li>
+   <li><a href='save.html'>Save Data</a></li>
+</ul>
+</div>
+-->
+	  <a href="save.html" class="Ref">Save Data </a>
+	  
+	  <!-- Div that contains the tables -->	
+	  <div class="infodiv">
+	  	<br>
+	  	
+	  	<!-- Text are where the user can enter the desired tutoring session date -->
+	  	Enter Course ID for the session: <input type="text" name="FirstName"><button>Get Sessions</button>
+	    
+	    <!-- Session table and button -->
+	    <h1>	Session Information: </h1>
+		<div id="table_div"></div>
+		    <br>
+		    <button id="sessionButton" class="sessionSubmitt" align = "center" onclick="changeTutor()">Get Session Instance's</button>
+		    <br>
+		    <br>
+	   
+	   <!-- Session instance table and button -->	    
+	   <h1>Session Instance Information: </h1>
+	   <div id ="table2_div"></div> 
+		    <br>
+		    <button id="tuteeButton" class="tuteeSubmitt" align = "center" onclick="changeTutor()">Get Tutee's</button>
+		    <br>
+		    <br>
+		    
+	   <!-- Tutee table -->
+	   <h1>Tutee Information</h1>
+	   <div  id ="table4_div"></div>
+		    <br>
+		    <br>
+		    
+	  <!-- Tutor table and button -->	    
+	  <h1>Tutor Information: </h1>
+      <div  id ="table3_div"></div>
+		    <br>
+		    <button id="tutorButton" class="tutorSubmitt" align = "center" onclick="changeTutor()">Get Tutor Information</button>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+	  </div>
+	  <br>
+	  <br>
+	  <br>
+	  <br>
+  </body>
+</html>

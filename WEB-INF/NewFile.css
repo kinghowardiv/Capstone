@@ -1,0 +1,19 @@
+
+body,html{
+
+}
+
+
+body{ background-color: 66CCFF ;
+	
+}
+
+.top-div{
+	background-color:  66CCFF;
+	border: 2px solid;
+    border-radius: 25px;
+	text-align:center;
+	width: 100%;
+	height: 100px;
+	clear: both;
+}
